@@ -175,9 +175,9 @@ int validaEntrada(int initLin,int initCol,int destCol,int destLin){
 	}
 } 
 int lePosicoes(int *pinitLin,int *pinitCol,int *pdestLin,int *pdestCol){
-	printf("Digite a posição inicial da peça({número linha}{número coluna}):",setlocale(LC_ALL,""));
+	printf("\nDigite a posição inicial da peça({número linha}{número coluna}):",setlocale(LC_ALL,""));
 	scanf("%d",pinitLin);
-    printf("Digite a posição final da peça({número linha}{número coluna}):",setlocale(LC_ALL,""));
+    printf("\nDigite a posição final da peça({número linha}{número coluna}):",setlocale(LC_ALL,""));
     scanf("%d",pdestLin);
     *pinitCol=*pinitLin%10;
     *pinitLin=*pinitLin/10;
@@ -245,7 +245,7 @@ int jogada(int matrizTabuleiro[9][9],int vez,int *ppontos,int *pcontnc){
 void mostraTabuleiro (int matrizTabuleiro[9][9]){
 	//10-Brancos 11-pretos 15-rainhaBranca 16-rainhaPreta 99-espaço vazio;
 	int i,j;
-	printf("______________________________\n");
+	printf("\n\n\n______________________________\n");
 	for(i=0;i<9;i++){
 		for(j=0;j<9;j++){
 			switch(matrizTabuleiro[i][j]){
@@ -311,9 +311,9 @@ int fimDeJogo(int matrizTabuleiro[9][9],int pcontnc,int *pganhador){
 	}
 }
 void lerNomes(char pj1[50],char pj2[50]){
-	printf("Digite o nome do primeiro jogador(máximo de 50 caracteres):",setlocale(LC_ALL,""));
+	printf("\nDigite o nome do primeiro jogador(máximo de 50 caracteres):",setlocale(LC_ALL,""));
 	scanf("%s",pj1);
-	printf("Digite o nome do segundo jogador(máximo de 50 caracteres):",setlocale(LC_ALL,""));
+	printf("\nDigite o nome do segundo jogador(máximo de 50 caracteres):",setlocale(LC_ALL,""));
 	scanf("%s",pj2);
 }
 void instrucoes(char pj1[50],char pj2[50]){
@@ -391,7 +391,7 @@ int main(){
 			break;
 			case 1: trocaVez(jogada(matrizTabuleiro,vez,&pj2,&contnc),&vez);;
 		}
-		system("clear");
+		system("cls");
 		joga=fimDeJogo(matrizTabuleiro,contnc,&ganhador);
 		if(joga==1){
 			if(ganhador==0){
