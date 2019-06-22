@@ -7,34 +7,34 @@ void showErrors(int cod){
 	char c;
 	switch (cod){
 		case 1:
-			printf("A linha inicial n„o est· na forma correta \n");
+			printf("A linha inicial n√£o est√° na forma correta \n");
 		break;
 		case 2:
-			printf("A coluna inicial n„o est· na forma correta \n");
+			printf("A coluna inicial n√£o est√° na forma correta \n");
 		break;
 		case 3:
-			printf("A linha destino n„o est· na forma correta \n");
+			printf("A linha destino n√£o est√° na forma correta \n");
 		break;
 		case 4:
-			printf("A coluna inicial n„o est· na forma correta \n");
+			printf("A coluna inicial n√£o est√° na forma correta \n");
 		break;
 		case 5:
-			printf("Esse espaÁo È vazio n„o pode ser movido \n");
+			printf("Esse espa√ßo √© vazio n√£o pode ser movido \n");
 		break;
 		case 6:
-			printf("Movimento Inv·lido  \n");
+			printf("Movimento Inv√°lido  \n");
 		break;
 		case 7:
-			printf("N„o È permitido andar para tr·s \n");
+			printf("N√£o √© permitido andar para tr√°s \n");
 		break;
 		case 8:
-			printf("VocÍ est· jogando com as peÁas erradas \n");
+			printf("Voc√™ est√° jogando com as pe√ßas erradas \n");
 		break;
 		case 9:
-			printf("VocÍ sÛ pode ir em um espaÁo em branco \n");
+			printf("Voc√™ s√≥ pode ir em um espa√ßo em branco \n");
 		break;
 		case 10:
-			printf("Para realizar essa jogada precisa ter uma peÁa adversaria no meio \n");
+			printf("Para realizar essa jogada precisa ter uma pe√ßa adversaria no meio \n");
 			break;
 		default:
 			printf("Jogada efetuada! \n");	
@@ -94,7 +94,7 @@ int validaMovimento(int initLin,int initCol,int destCol,int destLin,int diff, in
 			}else if(aux==11){
 				descAsc='a';
 			}
-			//TESTE FRENTE-TR¡S
+			//TESTE FRENTE-TRÔøΩS
 			if((descAsc=='a' && destLin<initLin) || (descAsc=='d' && destLin>initLin)|| diff>=2){
 				if(diff==1){
 					//TESTE DIAGONAL
@@ -175,9 +175,9 @@ int validaEntrada(int initLin,int initCol,int destCol,int destLin){
 	}
 } 
 int lePosicoes(int *pinitLin,int *pinitCol,int *pdestLin,int *pdestCol){
-	printf("\nDigite a posiÁ„o inicial da peÁa({n˙mero linha}{n˙mero coluna}):",setlocale(LC_ALL,""));
+	printf("\nDigite a posi√ß√£o inicial da pe√ßa({n√∫mero linha}{n√∫mero coluna}):",setlocale(LC_ALL,""));
 	scanf("%d",pinitLin);
-    printf("\nDigite a posiÁ„o final da peÁa({n˙mero linha}{n˙mero coluna}):",setlocale(LC_ALL,""));
+    printf("\nDigite a posi√ß√£o final da pe√ßa({n√∫mero linha}{n√∫mero coluna}):",setlocale(LC_ALL,""));
     scanf("%d",pdestLin);
     *pinitCol=*pinitLin%10;
     *pinitLin=*pinitLin/10;
@@ -218,10 +218,10 @@ int jogada(int matrizTabuleiro[9][9],int vez,int *ppontos,int *pcontnc){
 		populaDadosvalidacao(matrizTabuleiro,&aux,&destino,&medio,&medLin,&medCol,&diff,initLin,destLin,initCol,destCol);    	
         if(validaMovimento(initLin,initCol,destCol,destLin,diff,aux,destino,medio,vez,queen,matrizTabuleiro)){
         	*pcontnc=*pcontnc+1;
-			//troca peÁa
+			//troca peÔøΩa
 			matrizTabuleiro[initLin][initCol]=99;
     		matrizTabuleiro[destLin][destCol]=aux;
-    		//come peÁa
+    		//come peÔøΩa
     		if(diff>=2){
     			matrizTabuleiro[medLin][medCol]=99;
 				*ppontos=*ppontos+1;
@@ -243,7 +243,7 @@ int jogada(int matrizTabuleiro[9][9],int vez,int *ppontos,int *pcontnc){
 	}
 }
 void mostraTabuleiro (int matrizTabuleiro[9][9]){
-	//10-Brancos 11-pretos 15-rainhaBranca 16-rainhaPreta 99-espaÁo vazio;
+	//10-Brancos 11-pretos 15-rainhaBranca 16-rainhaPreta 99-espaÔøΩo vazio;
 	int i,j;
 	printf("\n\n\n______________________________\n");
 	for(i=0;i<9;i++){
@@ -311,54 +311,54 @@ int fimDeJogo(int matrizTabuleiro[9][9],int pcontnc,int *pganhador){
 	}
 }
 void lerNomes(char pj1[50],char pj2[50]){
-	printf("\nDigite o nome do primeiro jogador(m·ximo de 50 caracteres):",setlocale(LC_ALL,""));
+	printf("\nDigite o nome do primeiro jogador(m√°ximo de 50 caracteres):",setlocale(LC_ALL,""));
 	scanf("%s",pj1);
-	printf("\nDigite o nome do segundo jogador(m·ximo de 50 caracteres):",setlocale(LC_ALL,""));
+	printf("\nDigite o nome do segundo jogador(m√°ximo de 50 caracteres):",setlocale(LC_ALL,""));
 	scanf("%s",pj2);
 }
 void instrucoes(char pj1[50],char pj2[50]){
 	int opcao;
 	printf("|--------------------------------------------------|\n");
-	printf("|                INSTRU«’ES                        |\n",setlocale(LC_ALL,""));
-	printf("| PE«AS:                                           |\n",setlocale(LC_ALL,""));
-	printf("| AS PEDRAS VERMELHAS S√O REPRESENTADAS POR UM X   |\n",setlocale(LC_ALL,""));
-	printf("| AS DAMAS VERMELHAS S√O REPRESENTADAS POR UM r    |\n",setlocale(LC_ALL,""));
-    printf("| AS PEDRAS BRANCAS S√O REPRESENTADAS POR UM o     |\n",setlocale(LC_ALL,""));
-	printf("| AS DAMAS BRANCAS S√O REPRESENTADAS POR UM q      |\n",setlocale(LC_ALL,""));
+	printf("|                INSTRU√á√ïES                        |\n",setlocale(LC_ALL,""));
+	printf("| PE√áAS:                                           |\n",setlocale(LC_ALL,""));
+	printf("| AS PEDRAS VERMELHAS S√ÉO REPRESENTADAS POR UM X   |\n",setlocale(LC_ALL,""));
+	printf("| AS DAMAS VERMELHAS S√ÉO REPRESENTADAS POR UM r    |\n",setlocale(LC_ALL,""));
+    printf("| AS PEDRAS BRANCAS S√ÉO REPRESENTADAS POR UM o     |\n",setlocale(LC_ALL,""));
+	printf("| AS DAMAS BRANCAS S√ÉO REPRESENTADAS POR UM q      |\n",setlocale(LC_ALL,""));
 	printf("| COMO JOGAR:                                      |\n",setlocale(LC_ALL,""));
-	printf("| 1.O JOGADOR 1(PE«AS VERMELHAS) COME«AR¡ A PARTIDA|\n",setlocale(LC_ALL,""));
-	printf("| 2.PARA MOVIMENTAR AS PE«AS DIGITE O N⁄MERO DA LI-|\n",setlocale(LC_ALL,""));
-	printf("| NHA INICIAL SEGUIDO DO N⁄MERO DA COLUNA INICIAL. |\n",setlocale(LC_ALL,""));
-    printf("| EXEMPLO: 34 (LINHA 3 COLUNA 4). LOGO AP”S DIGITE |\n",setlocale(LC_ALL,""));
-	printf("| O N⁄MERO DA LINHA DESTINO SEGUIDO DO N⁄MERO DA   |\n",setlocale(LC_ALL,""));
+	printf("| 1.O JOGADOR 1(PE√áAS VERMELHAS) COME√áAR√Å A PARTIDA|\n",setlocale(LC_ALL,""));
+	printf("| 2.PARA MOVIMENTAR AS PE√áAS DIGITE O N√öMERO DA LI-|\n",setlocale(LC_ALL,""));
+	printf("| NHA INICIAL SEGUIDO DO N√öMERO DA COLUNA INICIAL. |\n",setlocale(LC_ALL,""));
+    printf("| EXEMPLO: 34 (LINHA 3 COLUNA 4). LOGO AP√ìS DIGITE |\n",setlocale(LC_ALL,""));
+	printf("| O N√öMERO DA LINHA DESTINO SEGUIDO DO N√öMERO DA   |\n",setlocale(LC_ALL,""));
 	printf("| COLUNA DESTINO.EXEMPLO 45(LINHA 4 COLUNA 5).     |\n",setlocale(LC_ALL,""));
 	printf("|--------------------------------------------------|\n",setlocale(LC_ALL,""));
 	printf("| PARA JOGAR TECLE 1                               |\n",setlocale(LC_ALL,""));
 	printf("|--------------------------------------------------|\n",setlocale(LC_ALL,""));
-    printf("Digite a opÁ„o:",setlocale(LC_ALL,""));
+    printf("Digite a op√ß√£o:",setlocale(LC_ALL,""));
 	scanf("%d",&opcao);
 	switch(opcao){
 		case 1:lerNomes(pj1,pj2);
 		break;
-		default:printf("OpÁ„o inexistente: \n");
+		default:printf("Op√ß√£o inexistente: \n");
 		instrucoes(pj1,pj2);
 	}
 }
 void criaMenu(char pj1[50],char pj2[50]){
 	int opcao;
 	printf("|--------------------------------------------------|\n");
-	printf("|                Bem Vindo a Damas 1.0             |\n");
+	printf("|                Bem Vindo a Damas 2.0             |\n");
 	printf("|                1-JOGAR                           |\n");
-	printf("|                2-INTRU«’ES                       |\n",setlocale(LC_ALL,""));
+	printf("|                2-INTRU√á√ïES                       |\n",setlocale(LC_ALL,""));
 	printf("|--------------------------------------------------|\n");
-	printf("Digite a opÁ„o:",setlocale(LC_ALL,""));
+	printf("Digite a op√ß√£o:",setlocale(LC_ALL,""));
 	scanf("%d",&opcao);
 	switch(opcao){
 		case 1:lerNomes(pj1,pj2);
 		break;
 		case 2:instrucoes(pj1,pj2);
 		break;
-		default:printf("OpÁ„o inexistente: \n",setlocale(LC_ALL,""));
+		default:printf("Op√ß√£o inexistente: \n",setlocale(LC_ALL,""));
 		criaMenu(pj1,pj2);
 	}
 }
@@ -379,12 +379,12 @@ int main(){
 	criaMenu(jogador1,jogador2);
 	while(joga==0){
 		switch(vez){
-			case 0: printf("Sua vez %s (PE«AS x)\n",jogador1,setlocale(LC_ALL,""));
+			case 0: printf("Sua vez %s (PE√áAS x)\n",jogador1,setlocale(LC_ALL,""));
 			break;
-			case 1: printf("Sua vez %s (PE«AS o)\n",jogador2,setlocale(LC_ALL,""));
+			case 1: printf("Sua vez %s (PE√áAS o)\n",jogador2,setlocale(LC_ALL,""));
 		}
-		printf("PontuaÁ„o %s : %d \n",jogador1,pj1,setlocale(LC_ALL,""));
-		printf("PontuaÁ„o %s : %d \n",jogador2,pj2,setlocale(LC_ALL,""));
+		printf("Pontua√ß√£o %s : %d \n",jogador1,pj1,setlocale(LC_ALL,""));
+		printf("Pontua√ß√£o %s : %d \n",jogador2,pj2,setlocale(LC_ALL,""));
 		mostraTabuleiro(matrizTabuleiro);
 		switch(vez){
 			case 0: trocaVez(jogada(matrizTabuleiro,vez,&pj1,&contnc),&vez);
