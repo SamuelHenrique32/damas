@@ -107,9 +107,19 @@ static ssize_t device_read(struct file *file, char __user *buffer, size_t length
 
 static ssize_t device_write(struct file *file, const char __user *buffer, size_t length, loff_t *offset)
 {
-	sprintf(msg, "%s", buffer, length);
-	int size_of_msg = strlen(msg);
-	printk("TESTE");
+	int i;
+	unsigned long valor;
+
+	char mensagem[100];
+	for (i = 0; i < length; i++)
+	{
+		// modo usuario para modo kernel, put user faz o contrario
+		get_user(mensagem[i], &buffer[i]);
+	}
+	sscanf(mensagem, "%ld", &valor);
+	printk("Recebi o valor de %ld.\n", valor);
+	//printk("Tamanho %ld.\n", length);
+	return i;
 }
 
 long device_ioctl(struct file *file, unsigned int ioctl_num, unsigned long ioctl_param)
