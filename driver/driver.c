@@ -35,7 +35,7 @@ static int device_open(struct inode *inode, struct file *file);
 static int device_release(struct inode *inode, struct file *file);
 static ssize_t device_read(struct file *file, char __user *buffer, size_t length, loff_t *offset);
 static ssize_t device_write(struct file *file, const char __user *buffer, size_t length, loff_t *offset);
-long device_ioctl(struct file *file, unsigned int ioctl_num, unsigned long ioctl_param);
+//long device_ioctl(struct file *file, unsigned int ioctl_num, unsigned long ioctl_param);
 
 /*-----------------------------------------*/
 
@@ -44,8 +44,8 @@ struct file_operations fops = {
 	.open = device_open,
 	.release = device_release,
 	.read = device_read,
-	.write = device_write,
-	.unlocked_ioctl = device_ioctl
+	.write = device_write
+	//.unlocked_ioctl = device_ioctl
 };
 /*-----------------------------------------*/
 int init_module(void) {
@@ -118,29 +118,28 @@ static ssize_t device_write(struct file *file, const char __user *buffer, size_t
 	}
 	sscanf(mensagem, "%ld", &valor);
 	printk("Recebi o valor de %ld.\n", valor);
-	//printk("Tamanho %ld.\n", length);
 	return i;
 }
 
-long device_ioctl(struct file *file, unsigned int ioctl_num, unsigned long ioctl_param)
-{
-	int length;
-	char *temp = NULL;
-	printk("Vou usar o ioctl\n");
-	switch (ioctl_num)
-	{
-	case SET_MOVIMENTACAO:
+//long device_ioctl(struct file *file, unsigned int ioctl_num, unsigned long ioctl_param)
+//{
+//	int length;
+//	char *temp = NULL;
+//	printk("Vou usar o ioctl\n");
+//	switch (ioctl_num)
+//	{
+//	case SET_MOVIMENTACAO:
 		
-		printk("IOCTL recebeu %ld", ioctl_param);
+//		printk("IOCTL recebeu %ld", ioctl_param);
 		
-		device_write(file, (char *)ioctl_param, SET_MOVIMENTACAO_LENGTH, 0);
-	break;
-	default:
-		printk("Essa operacao nao e permitida.\n");
-		return -1;
-	}
-	return 0;
-}
+//		device_write(file, (char *)ioctl_param, SET_MOVIMENTACAO_LENGTH, 0);
+//	break;
+//	default:
+//		printk("Essa operacao nao e permitida.\n");
+//		return -1;
+//	}
+//	return 0;
+//}
 
 /*-----------------------------------------*/
 void cleanup_module (void) {

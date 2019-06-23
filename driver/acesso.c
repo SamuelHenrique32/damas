@@ -1,31 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/ioctl.h>
 #include <fcntl.h>
 
-#include "driver.h"
-
 #define DEVICE_NAME "/dev/damas"
+#define BUF_MSG 6
 
-
-int main(int argc, char **argv)
+int writeDriver(char word[BUF_MSG])
 {
-    int fp, ret;   
+  int file;
+  file = open(DEVICE_NAME, O_WRONLY);
 
-    fp = open("/dev/damas", O_RDWR);
-    if (fp < 0)
-    {
-        perror("Nao foi possivel acessar\n");
-        exit(0);
-    }
+  if (file > 0) {
+    write(file, word, BUF_MSG);
+    close(file);
+  }
 
-    // Pos atual pos final
-    ret = ioctl(fp, 1, 4678);
+  return 1;
+}
 
-    if (ret < 0)
-    {
-        printf("Erro ao setar o delay");
-        exit(0);
-    }
-    close(fp);
+char* readDriver()
+{
+  int file;
+  char *word = (char*) malloc(BUF_MSG);
+  file = open(DEVICE_NAME, O_RDONLY);
+
+  if (file > 0) {
+    read(file, word, BUF_MSG);
+    close(file);
+  }
+
+  return word;
+}
+
+int main(){
+
+    writeDriver("5897");
 }
