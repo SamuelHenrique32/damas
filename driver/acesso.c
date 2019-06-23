@@ -10,24 +10,17 @@
 
 int main(int argc, char **argv)
 {
-    //FILE *f = NULL;
-    //int i, delay;
+    int fp, ret;   
 
-    //f = fopen(DEVICE_NAME, "w");
-    //printf("Digite o delay: ");
-    //scanf("%d", &delay);
-    //fprintf(f, "%d", delay);
-    //fclose(f);    
-
-    fp = open("/dev/damas", "O_RDWR");
+    fp = open("/dev/damas", O_RDWR);
     if (fp < 0)
     {
         perror("Nao foi possivel acessar\n");
         exit(0);
     }
 
-    sprintf(str, "%d", i);
-    ret = ioctl(fp, IOCTL_SET_SPEAKER, str);
+    // Pos atual pos final
+    ret = ioctl(fp, 1, 4678);
 
     if (ret < 0)
     {

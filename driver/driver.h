@@ -1,4 +1,5 @@
-#ifndef _SPEAKER_H_
-    #define _SPEAKER_H_
-    #define IOCTL_SET_SPEAKER _IOW('s',1,int)
+#ifndef _DAMAS_H_
+    #define _DAMAS_H_
+    #define SET_MOVIMENTACAO 1
+    #define READ_MOVIMENTACAO 2
 #endif

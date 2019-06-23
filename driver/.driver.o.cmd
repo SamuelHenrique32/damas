@@ -833,6 +833,7 @@ deps_/home/samuel/Desktop/damas/driver/driver.o := \
   include/linux/delay.h \
   arch/x86/include/asm/delay.h \
   include/asm-generic/delay.h \
+  /home/samuel/Desktop/damas/driver/driver.h \
 
 /home/samuel/Desktop/damas/driver/driver.o: $(deps_/home/samuel/Desktop/damas/driver/driver.o)
 

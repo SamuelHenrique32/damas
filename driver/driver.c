@@ -8,15 +8,25 @@
 
 /*-----------------------------------------*/
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("SAMUEL DALMAS E MARIA CAROLINA");
-MODULE_DESCRIPTION("SO");
+MODULE_AUTHOR("SAMUEL DALMAS<shdalmas@ucs.br> E MARIA CAROLINA<mcwplima@ucs.br>");
+MODULE_DESCRIPTION("Trabalho SO - Jogo de Damas");
 
 /*-----------------------------------------*/
 
+// Parametros do Modulo
 #define DEVICE 60
 #define DEVICE_NAME "so"
+#define BUFFER 100
+#define SET_MOVIMENTACAO_LENGTH 5
+
+/*-----------------------------------------*/
+
+// Variaveis
 // Flag para definir se driver esta aberto
 static int aberto = 0;
+static char msg[BUFFER];
+static char *ptr;
+static int size;
 
 /*-----------------------------------------*/
 
@@ -28,6 +38,8 @@ static ssize_t device_write(struct file *file, const char __user *buffer, size_t
 long device_ioctl(struct file *file, unsigned int ioctl_num, unsigned long ioctl_param);
 
 /*-----------------------------------------*/
+
+// Operacoes do Modulo
 struct file_operations fops = {
 	.open = device_open,
 	.release = device_release,
@@ -59,6 +71,7 @@ static int device_open(struct inode *inode, struct file *file)
 
 	aberto++;
 	// pega acesso ao modulo
+	ptr = msg;
 	try_module_get(THIS_MODULE);
 	printk("O dispositivo %d foi aberto.\n", DEVICE);
 	return 0;
@@ -75,24 +88,28 @@ static int device_release(struct inode *inode, struct file *file)
 
 static ssize_t device_read(struct file *file, char __user *buffer, size_t length, loff_t *offset)
 {
-	printk(KERN_ALERT "Essa operacao nao e permitida.\n");
-	printk(KERN_ALERT "Tente executar a operacao de writer.\n");
-	return 0;
+	if (*ptr == 0)
+		return 0;
+
+	printk("Leu 1 bytes correspondendo a mensagem: %s", msg);
+
+	if(size == 0){
+		put_user('\0', buffer);
+		return 1;
+	}
+
+	size--;
+	put_user(msg[size], buffer);
+	msg[size] = 0;
+
+	return 1;
 }
 
 static ssize_t device_write(struct file *file, const char __user *buffer, size_t length, loff_t *offset)
 {
-	int delay, i;
-	char mensagem[100];
-	for (i = 0; i < length; i++)
-	{
-		// modo usuario para modo kernel, put user faz o contrario
-		get_user(mensagem[i], &buffer[i]);
-	}
-	sscanf(mensagem, "%d", &delay);
-	printk("Recebi o valor de %d.\n", delay);
-	//speaker(delay);
-	return i;
+	sprintf(msg, "%s", buffer, length);
+	int size_of_msg = strlen(msg);
+	printk("TESTE");
 }
 
 long device_ioctl(struct file *file, unsigned int ioctl_num, unsigned long ioctl_param)
@@ -102,16 +119,11 @@ long device_ioctl(struct file *file, unsigned int ioctl_num, unsigned long ioctl
 	printk("Vou usar o ioctl\n");
 	switch (ioctl_num)
 	{
-	case IOCTL_SET_SPEAKER:
-		temp = (char *)ioctl_param;
-		length = 0;
-		// ate encontrar \0
-		while (*temp)
-		{
-			length++;
-			temp++;
-		}
-		device_write(file, (char *)ioctl_param, length, 0);
+	case SET_MOVIMENTACAO:
+		
+		printk("IOCTL recebeu %ld", ioctl_param);
+		
+		device_write(file, (char *)ioctl_param, SET_MOVIMENTACAO_LENGTH, 0);
 	break;
 	default:
 		printk("Essa operacao nao e permitida.\n");
@@ -127,4 +139,3 @@ void cleanup_module (void) {
 }
 
 /*-----------------------------------------*/
-
