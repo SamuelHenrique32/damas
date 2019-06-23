@@ -34,5 +34,7 @@ char* readDriver()
 
 int main(){
 
-    writeDriver("5897");
+    writeDriver("7788");
+
+    printf("%s\n", readDriver());
 }
