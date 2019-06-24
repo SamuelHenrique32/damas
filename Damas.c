@@ -374,14 +374,16 @@ if(lePosicoes(&initLin,&initCol,&destLin,&destCol)){
      	printf("Coluna Inicial %d - %d\n",initCol,numJogador);
      	printf("Linha final %d - %d\n", destLin,numJogador);
      	printf("Coluna final %d - %d\n", destCol,numJogador);
-		//printf("Arr %s", jogadaArr);
-	//	int auxl;
-	//if(numJogador == 1){
-	//	auxl = 11;
-	//}else if(numJogador == 2){
-//		auxl = 10;
-//	}
+		
+		int jogadorAtual;
+		if(numJogador == 1){
+			jogadorAtual = 0;
+		}else if(numJogador == 2){
+			jogadorAtual= 1;
+		};
 
+		trocaVez(1,jogadorAtual);
+		
 		if(validaMovimento(initLin,initCol,destCol,destLin,diff,aux,destino,medio,vez,queen,matrizTabuleiro)){
         	*pcontnc=*pcontnc+1;
 			//troca peca
