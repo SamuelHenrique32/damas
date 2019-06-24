@@ -3,6 +3,111 @@
 #include <math.h>
 #include <string.h>
 #include <locale.h>
+#include <time.h>
+#include <unistd.h>
+#include <fcntl.h>
+
+#define DEVICE_NAME "/dev/damas"
+#define BUF_MSG 6
+
+int numJogador = 0;
+char *jogador;
+char * buffer;
+
+int writeDriver(char word[BUF_MSG])
+{
+  int file;
+  file = open(DEVICE_NAME, O_WRONLY);
+
+  if (file > 0) {
+    write(file, word, BUF_MSG);
+    close(file);
+  }
+
+  return 1;
+}
+
+char* readDriver()
+{
+  int file;
+  char *word = (char*) malloc(BUF_MSG);
+  file = open(DEVICE_NAME, O_RDONLY);
+
+  if (file > 0) {
+    read(file, word, BUF_MSG);
+    close(file);
+  }
+
+  return word;
+}
+
+int initJogo(){
+    writeDriver("00000");
+    printf("Jogo Iniciado\n");
+    writeDriver("10000");
+    setJogador(1,"JOGADOR1");
+}
+
+//Pega o jogador da ultima jogada
+int getPlayer(){
+    char jogadaArr[BUF_MSG];
+    char jogadorChar;
+    int jogadorInt;
+    strcpy(jogadaArr, readDriver());
+    jogadorChar = jogadaArr[0];
+    jogadorInt =  jogadorChar - '0';
+	printf("\njogador: %d\n",jogadorInt);
+    return jogadorInt ;
+}
+
+//Seta o jogador da execução
+int setJogador(int num , char * nome){
+    numJogador = num;
+    jogador = nome;
+}
+
+//Espera outro jogador
+int wait (){
+	printf("WAIT BUFFER %s \n",readDriver() );
+	printf("entrou no while com getPlayer: %d\n",getPlayer(readDriver()));
+	printf("entrou no while com jogador: %d\n",numJogador);
+	
+    while(getPlayer(readDriver()) == numJogador){
+		
+        sleep(1);
+       
+        printf("WAIT BUFFER %s \n",readDriver() );
+    }
+
+}
+
+//Pega a movimentação realizada
+int getLinCol(int * initLin,int * initCol,int * destLin,int *destCol){
+    
+	char jogadaArr[BUF_MSG];
+    
+    strcpy(jogadaArr, readDriver());
+    initLin = jogadaArr[1] - '0';
+    initCol = jogadaArr[2] - '0';
+    destLin = jogadaArr[3] - '0';
+    destCol = jogadaArr[4] - '0';
+
+    
+
+	
+}
+
+int escreverJogada (int initLin,int initCol,int destLin,int destCol ){
+	char msg[BUF_MSG];
+	msg[0] = numJogador + '0';
+	msg[1] = initLin + '0';
+	msg[2] = initCol + '0';
+	msg[3] = destLin + '0';
+	msg[4] = destCol + '0';
+
+	writeDriver(msg);
+};
+
 void showErrors(int cod){
 	char c;
 	switch (cod){
@@ -83,8 +188,12 @@ int validaDiagonalRainha(int initLin,int initCol,int destCol,int destLin,int mat
 }
 
 int validaMovimento(int initLin,int initCol,int destCol,int destLin,int diff, int aux,int destino,int medio,int vez,int queen,int matrizTabuleiro[9][9]){
-	if(vez==0 && aux==10 ||vez==0 && aux==15|| vez==1 && aux==11||vez==1 && aux==16){
+	printf("Entrei valida");
+	
+	if((vez==0 && aux==10) ||(vez==0 && aux==15)|| (vez==1 && aux==11)||(vez==1 && aux==16)){
+		printf("Entrei if vez");
 		if(diff==2 && queen==0 || diff==1 && queen==0 ){
+			printf("Entrei if diff");
 			char descAsc;
 			if(aux==99){
 				showErrors(5);
@@ -96,6 +205,7 @@ int validaMovimento(int initLin,int initCol,int destCol,int destLin,int diff, in
 			}
 			//TESTE FRENTE-TR�S
 			if((descAsc=='a' && destLin<initLin) || (descAsc=='d' && destLin>initLin)|| diff>=2){
+				printf("Entrei frente trás");
 				if(diff==1){
 					//TESTE DIAGONAL
 					if(destCol==initCol-1||destCol==initCol+1){
@@ -110,6 +220,7 @@ int validaMovimento(int initLin,int initCol,int destCol,int destLin,int diff, in
 						return 0;
 					}
 				}else if(diff==2){
+					printf("Entrei diff2");
 					if(destCol==initCol-2||destCol==initCol+2){
 						if(destino!=99){
 							showErrors(9);
@@ -137,6 +248,7 @@ int validaMovimento(int initLin,int initCol,int destCol,int destLin,int diff, in
 	 			return 0;
 	 		}
 		}else if(queen){
+				printf("Entrei queen");
 				if(initLin>destLin && initCol<destCol || initLin<destLin && initCol>destCol || initLin<destLin && initCol<destCol || initLin>destLin && initCol>destCol){
 					if(validaDiagonalRainha(initLin,initCol,destCol,destLin,matrizTabuleiro,aux)){
 						return 1;
@@ -175,9 +287,9 @@ int validaEntrada(int initLin,int initCol,int destCol,int destLin){
 	}
 } 
 int lePosicoes(int *pinitLin,int *pinitCol,int *pdestLin,int *pdestCol){
-	printf("\nDigite a posição inicial da peça({número linha}{número coluna}):",setlocale(LC_ALL,""));
+	printf("\nDigite a posição inicial da peça({número linha}{número coluna}):");//,setlocale(LC_ALL,""));
 	scanf("%d",pinitLin);
-    printf("\nDigite a posição final da peça({número linha}{número coluna}):",setlocale(LC_ALL,""));
+    printf("\nDigite a posição final da peça({número linha}{número coluna}):");//,setlocale(LC_ALL,""));
     scanf("%d",pdestLin);
     *pinitCol=*pinitLin%10;
     *pinitLin=*pinitLin/10;
@@ -185,6 +297,8 @@ int lePosicoes(int *pinitLin,int *pinitCol,int *pdestLin,int *pdestCol){
     *pdestLin=*pdestLin/10;
     return validaEntrada(*pinitLin,*pinitCol,*pdestCol,*pdestLin);
 }
+
+
 
 void populaDadosvalidacao(int matrizTabuleiro[9][9], int *paux,int *pdestino,int *pmedio,int *pmedLin,int *pmedCol,int *pdiff, int initLin, int destLin,int initCol, int destCol){
 	*pdiff = abs(initLin-destLin);
@@ -209,7 +323,9 @@ void populaDadosvalidacao(int matrizTabuleiro[9][9], int *paux,int *pdestino,int
 }
 int jogada(int matrizTabuleiro[9][9],int vez,int *ppontos,int *pcontnc){
 	int initLin,initCol,destLin,destCol,aux,queen,destino,medLin,medCol,medio,diff;
-    if(lePosicoes(&initLin,&initCol,&destLin,&destCol)){
+    
+	if(getPlayer(readDriver()) == numJogador || strcmp("00000",readDriver())==0 || strcmp("10000",readDriver())==0 || strcmp("20000",readDriver())==0){
+if(lePosicoes(&initLin,&initCol,&destLin,&destCol)){
     	if(vez==0 && matrizTabuleiro[initLin][initCol]==15 || vez==1 && matrizTabuleiro[initLin][initCol]==16){
     		queen=1; 
     	}else{
@@ -218,10 +334,60 @@ int jogada(int matrizTabuleiro[9][9],int vez,int *ppontos,int *pcontnc){
 		populaDadosvalidacao(matrizTabuleiro,&aux,&destino,&medio,&medLin,&medCol,&diff,initLin,destLin,initCol,destCol);    	
         if(validaMovimento(initLin,initCol,destCol,destLin,diff,aux,destino,medio,vez,queen,matrizTabuleiro)){
         	*pcontnc=*pcontnc+1;
-			//troca pe�a
+			//troca peca
 			matrizTabuleiro[initLin][initCol]=99;
     		matrizTabuleiro[destLin][destCol]=aux;
-    		//come pe�a
+    		//come peca
+    		if(diff>=2){
+    			matrizTabuleiro[medLin][medCol]=99;
+				*ppontos=*ppontos+1;
+				*pcontnc=0;		
+    		}
+    		//troca rainha
+    		if(vez==0 && destLin==8){
+    			matrizTabuleiro[destLin][destCol]=15; 
+    		}
+    		if(vez==1 && destLin==1){
+    			matrizTabuleiro[destLin][destCol]=16; 
+    		}
+			
+			escreverJogada(initLin,initCol,destLin,destCol);
+
+    		return 1;
+    	}else{
+    		return 0;
+		}
+    }else{
+    	return 0;
+	}
+	}else{
+		
+		char jogadaArr[BUF_MSG],ch;
+    
+    	strcpy(jogadaArr, readDriver());
+		initLin = jogadaArr[1] - '0';
+		initCol = jogadaArr[2] - '0';
+    	destLin = jogadaArr[3] - '0';
+    	destCol = jogadaArr[4] - '0';
+
+		printf("Linha Inicial %d - %d\n", initLin, numJogador);
+     	printf("Coluna Inicial %d - %d\n",initCol,numJogador);
+     	printf("Linha final %d - %d\n", destLin,numJogador);
+     	printf("Coluna final %d - %d\n", destCol,numJogador);
+		//printf("Arr %s", jogadaArr);
+	//	int auxl;
+	//if(numJogador == 1){
+	//	auxl = 11;
+	//}else if(numJogador == 2){
+//		auxl = 10;
+//	}
+
+		if(validaMovimento(initLin,initCol,destCol,destLin,diff,aux,destino,medio,vez,queen,matrizTabuleiro)){
+        	*pcontnc=*pcontnc+1;
+			//troca peca
+			matrizTabuleiro[initLin][initCol]=99;
+    		matrizTabuleiro[destLin][destCol]=aux;
+    		//come peca
     		if(diff>=2){
     			matrizTabuleiro[medLin][medCol]=99;
 				*ppontos=*ppontos+1;
@@ -238,9 +404,8 @@ int jogada(int matrizTabuleiro[9][9],int vez,int *ppontos,int *pcontnc){
     	}else{
     		return 0;
 		}
-    }else{
-    	return 0;
 	}
+	
 }
 void mostraTabuleiro (int matrizTabuleiro[9][9]){
 	//10-Brancos 11-pretos 15-rainhaBranca 16-rainhaPreta 99-espa�o vazio;
@@ -311,30 +476,39 @@ int fimDeJogo(int matrizTabuleiro[9][9],int pcontnc,int *pganhador){
 	}
 }
 void lerNomes(char pj1[50],char pj2[50]){
-	printf("\nDigite o nome do primeiro jogador(máximo de 50 caracteres):",setlocale(LC_ALL,""));
-	scanf("%s",pj1);
-	printf("\nDigite o nome do segundo jogador(máximo de 50 caracteres):",setlocale(LC_ALL,""));
-	scanf("%s",pj2);
+	 if(!strcmp("00000",readDriver())==0 && !strcmp("10000",readDriver())==0 && !strcmp("20000",readDriver())==0){
+        initJogo();
+    }else if(strcmp("10000",readDriver())==0){
+        setJogador(2,"JOGADOR2");
+        writeDriver("20000");
+    }
+	
+	pj1 = "JOGADOR 1";
+	pj2 = "JOGADOR 2";
+	//printf("\nDigite o nome do primeiro jogador(máximo de 50 caracteres):",setlocale(LC_ALL,""));
+	//scanf("%s",pj1);
+	//printf("\nDigite o nome do segundo jogador(máximo de 50 caracteres):",setlocale(LC_ALL,""));
+	//scanf("%s",pj2);
 }
 void instrucoes(char pj1[50],char pj2[50]){
 	int opcao;
 	printf("|--------------------------------------------------|\n");
-	printf("|                INSTRUÇÕES                        |\n",setlocale(LC_ALL,""));
-	printf("| PEÇAS:                                           |\n",setlocale(LC_ALL,""));
-	printf("| AS PEDRAS VERMELHAS SÃO REPRESENTADAS POR UM X   |\n",setlocale(LC_ALL,""));
-	printf("| AS DAMAS VERMELHAS SÃO REPRESENTADAS POR UM r    |\n",setlocale(LC_ALL,""));
-    printf("| AS PEDRAS BRANCAS SÃO REPRESENTADAS POR UM o     |\n",setlocale(LC_ALL,""));
-	printf("| AS DAMAS BRANCAS SÃO REPRESENTADAS POR UM q      |\n",setlocale(LC_ALL,""));
-	printf("| COMO JOGAR:                                      |\n",setlocale(LC_ALL,""));
-	printf("| 1.O JOGADOR 1(PEÇAS VERMELHAS) COMEÇARÁ A PARTIDA|\n",setlocale(LC_ALL,""));
-	printf("| 2.PARA MOVIMENTAR AS PEÇAS DIGITE O NÚMERO DA LI-|\n",setlocale(LC_ALL,""));
-	printf("| NHA INICIAL SEGUIDO DO NÚMERO DA COLUNA INICIAL. |\n",setlocale(LC_ALL,""));
-    printf("| EXEMPLO: 34 (LINHA 3 COLUNA 4). LOGO APÓS DIGITE |\n",setlocale(LC_ALL,""));
-	printf("| O NÚMERO DA LINHA DESTINO SEGUIDO DO NÚMERO DA   |\n",setlocale(LC_ALL,""));
-	printf("| COLUNA DESTINO.EXEMPLO 45(LINHA 4 COLUNA 5).     |\n",setlocale(LC_ALL,""));
-	printf("|--------------------------------------------------|\n",setlocale(LC_ALL,""));
-	printf("| PARA JOGAR TECLE 1                               |\n",setlocale(LC_ALL,""));
-	printf("|--------------------------------------------------|\n",setlocale(LC_ALL,""));
+	printf("|                INSTRUÇÕES                        |\n");//,setlocale(LC_ALL,""));
+	printf("| PEÇAS:                                           |\n");//,setlocale(LC_ALL,""));
+	printf("| AS PEDRAS VERMELHAS SÃO REPRESENTADAS POR UM X   |\n");//,setlocale(LC_ALL,""));
+	printf("| AS DAMAS VERMELHAS SÃO REPRESENTADAS POR UM r    |\n");//,setlocale(LC_ALL,""));
+    printf("| AS PEDRAS BRANCAS SÃO REPRESENTADAS POR UM o     |\n");//,setlocale(LC_ALL,""));
+	printf("| AS DAMAS BRANCAS SÃO REPRESENTADAS POR UM q      |\n");//,setlocale(LC_ALL,""));
+	printf("| COMO JOGAR:                                      |\n");//,setlocale(LC_ALL,""));
+	printf("| 1.O JOGADOR 1(PEÇAS VERMELHAS) COMEÇARÁ A PARTIDA|\n");//,setlocale(LC_ALL,""));
+	printf("| 2.PARA MOVIMENTAR AS PEÇAS DIGITE O NÚMERO DA LI-|\n");//,setlocale(LC_ALL,""));
+	printf("| NHA INICIAL SEGUIDO DO NÚMERO DA COLUNA INICIAL. |\n");//,setlocale(LC_ALL,""));
+    printf("| EXEMPLO: 34 (LINHA 3 COLUNA 4). LOGO APÓS DIGITE |\n");//,setlocale(LC_ALL,""));
+	printf("| O NÚMERO DA LINHA DESTINO SEGUIDO DO NÚMERO DA   |\n");//,setlocale(LC_ALL,""));
+	printf("| COLUNA DESTINO.EXEMPLO 45(LINHA 4 COLUNA 5).     |\n");//,setlocale(LC_ALL,""));
+	printf("|--------------------------------------------------|\n");//,setlocale(LC_ALL,""));
+	printf("| PARA JOGAR TECLE 1                               |\n");//,setlocale(LC_ALL,""));
+	printf("|--------------------------------------------------|\n");//,setlocale(LC_ALL,""));
     printf("Digite a opção:",setlocale(LC_ALL,""));
 	scanf("%d",&opcao);
 	switch(opcao){
@@ -349,16 +523,16 @@ void criaMenu(char pj1[50],char pj2[50]){
 	printf("|--------------------------------------------------|\n");
 	printf("|                Bem Vindo a Damas 2.0             |\n");
 	printf("|                1-JOGAR                           |\n");
-	printf("|                2-INTRUÇÕES                       |\n",setlocale(LC_ALL,""));
+	printf("|                2-INTRUÇÕES                       |\n");//,setlocale(LC_ALL,""));
 	printf("|--------------------------------------------------|\n");
-	printf("Digite a opção:",setlocale(LC_ALL,""));
+	printf("Digite a opção:");//,setlocale(LC_ALL,""));
 	scanf("%d",&opcao);
 	switch(opcao){
 		case 1:lerNomes(pj1,pj2);
 		break;
 		case 2:instrucoes(pj1,pj2);
 		break;
-		default:printf("Opção inexistente: \n",setlocale(LC_ALL,""));
+		default:printf("Opção inexistente: \n");//,setlocale(LC_ALL,""));
 		criaMenu(pj1,pj2);
 	}
 }
@@ -379,18 +553,22 @@ int main(){
 	criaMenu(jogador1,jogador2);
 	while(joga==0){
 		switch(vez){
-			case 0: printf("Sua vez %s (PEÇAS x)\n",jogador1,setlocale(LC_ALL,""));
+			case 0: printf("Sua vez %s (PEÇAS x)\n",jogador1);//,setlocale(LC_ALL,""));
 			break;
-			case 1: printf("Sua vez %s (PEÇAS o)\n",jogador2,setlocale(LC_ALL,""));
+			case 1: printf("Sua vez %s (PEÇAS o)\n",jogador2);//,setlocale(LC_ALL,""));
 		}
-		printf("Pontuação %s : %d \n",jogador1,pj1,setlocale(LC_ALL,""));
-		printf("Pontuação %s : %d \n",jogador2,pj2,setlocale(LC_ALL,""));
+		
+		printf("Pontuação %s : %d \n",jogador1,pj1);//,setlocale(LC_ALL,""));
+		printf("Pontuação %s : %d \n",jogador2,pj2);//,setlocale(LC_ALL,""));
 		mostraTabuleiro(matrizTabuleiro);
+
+		wait();
 		switch(vez){
 			case 0: trocaVez(jogada(matrizTabuleiro,vez,&pj1,&contnc),&vez);
 			break;
 			case 1: trocaVez(jogada(matrizTabuleiro,vez,&pj2,&contnc),&vez);;
 		}
+		
 		system("cls");
 		joga=fimDeJogo(matrizTabuleiro,contnc,&ganhador);
 		if(joga==1){
@@ -398,11 +576,12 @@ int main(){
 				printf("Que pena!O jogo terminou empatado!!");
 			}else if(ganhador==1){
 				if(pj1>pj2){
-					printf("O %s ganhou!",jogador1,setlocale(LC_ALL,""));
+					printf("O %s ganhou!",jogador1);//,setlocale(LC_ALL,""));
 				}else if(pj2>pj1){
-					printf("O %s ganhou!",jogador2,setlocale(LC_ALL,""));
+					printf("O %s ganhou!",jogador2);//,setlocale(LC_ALL,""));
 				}
 			}
 		}
+		
 	}
 }
