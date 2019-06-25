@@ -69,8 +69,9 @@ int setJogador(int num , char * nome){
 //Espera outro jogador
 int wait (){
 	printf("WAIT BUFFER %s \n",readDriver() );
-	printf("entrou no while com getPlayer: %d\n",getPlayer(readDriver()));
-	printf("entrou no while com jogador: %d\n",numJogador);
+
+	//printf("entrou no while com getPlayer: %d\n",getPlayer(readDriver()));
+	//printf("entrou no while com jogador: %d\n",numJogador);
 	
     while(getPlayer(readDriver()) == numJogador){
 		
@@ -188,12 +189,13 @@ int validaDiagonalRainha(int initLin,int initCol,int destCol,int destLin,int mat
 }
 
 int validaMovimento(int initLin,int initCol,int destCol,int destLin,int diff, int aux,int destino,int medio,int vez,int queen,int matrizTabuleiro[9][9]){
-	printf("Entrei valida");
-	
+	// printf("Entrei valida");
+	// printf("\n Vez %d\n",vez);
+	// printf("\n aux %d \n",aux);
 	if((vez==0 && aux==10) ||(vez==0 && aux==15)|| (vez==1 && aux==11)||(vez==1 && aux==16)){
-		printf("Entrei if vez");
+		// printf("Entrei if vez");
 		if(diff==2 && queen==0 || diff==1 && queen==0 ){
-			printf("Entrei if diff");
+			// printf("Entrei if diff");
 			char descAsc;
 			if(aux==99){
 				showErrors(5);
@@ -205,7 +207,7 @@ int validaMovimento(int initLin,int initCol,int destCol,int destLin,int diff, in
 			}
 			//TESTE FRENTE-TR�S
 			if((descAsc=='a' && destLin<initLin) || (descAsc=='d' && destLin>initLin)|| diff>=2){
-				printf("Entrei frente trás");
+				// printf("Entrei frente trás");
 				if(diff==1){
 					//TESTE DIAGONAL
 					if(destCol==initCol-1||destCol==initCol+1){
@@ -220,7 +222,7 @@ int validaMovimento(int initLin,int initCol,int destCol,int destLin,int diff, in
 						return 0;
 					}
 				}else if(diff==2){
-					printf("Entrei diff2");
+					// printf("Entrei diff2");
 					if(destCol==initCol-2||destCol==initCol+2){
 						if(destino!=99){
 							showErrors(9);
@@ -248,7 +250,7 @@ int validaMovimento(int initLin,int initCol,int destCol,int destLin,int diff, in
 	 			return 0;
 	 		}
 		}else if(queen){
-				printf("Entrei queen");
+				// printf("Entrei queen");
 				if(initLin>destLin && initCol<destCol || initLin<destLin && initCol>destCol || initLin<destLin && initCol<destCol || initLin>destLin && initCol>destCol){
 					if(validaDiagonalRainha(initLin,initCol,destCol,destLin,matrizTabuleiro,aux)){
 						return 1;
@@ -321,11 +323,14 @@ void populaDadosvalidacao(int matrizTabuleiro[9][9], int *paux,int *pdestino,int
 		*pmedio=matrizTabuleiro[*pmedLin][*pmedCol];
 	}
 }
-int jogada(int matrizTabuleiro[9][9],int vez,int *ppontos,int *pcontnc){
+int jogada(int matrizTabuleiro[9][9],int vez,int *ppontos,int *pcontnc, int *vezpoint){
 	int initLin,initCol,destLin,destCol,aux,queen,destino,medLin,medCol,medio,diff;
-    
-	if(getPlayer(readDriver()) == numJogador || strcmp("00000",readDriver())==0 || strcmp("10000",readDriver())==0 || strcmp("20000",readDriver())==0){
-if(lePosicoes(&initLin,&initCol,&destLin,&destCol)){
+	 printf("VEZ  %d \n",vez);
+	 printf("JOGADOR - 1 %d \n",numJogador-1);
+	
+	if(vez == numJogador-1 || strcmp("00000",readDriver())==0 || strcmp("10000",readDriver())==0 || strcmp("20000",readDriver())==0){
+	printf("Minha jogada %d \n",numJogador);
+	if(lePosicoes(&initLin,&initCol,&destLin,&destCol)){
     	if(vez==0 && matrizTabuleiro[initLin][initCol]==15 || vez==1 && matrizTabuleiro[initLin][initCol]==16){
     		queen=1; 
     	}else{
@@ -361,29 +366,23 @@ if(lePosicoes(&initLin,&initCol,&destLin,&destCol)){
     	return 0;
 	}
 	}else{
-		
+		//printf("Jogada do adversário");
 		char jogadaArr[BUF_MSG],ch;
     
     	strcpy(jogadaArr, readDriver());
-		initLin = jogadaArr[1] - '0';
-		initCol = jogadaArr[2] - '0';
-    	destLin = jogadaArr[3] - '0';
-    	destCol = jogadaArr[4] - '0';
+		initLin =(int) jogadaArr[1] - '0';
+		initCol =(int) jogadaArr[2] - '0';
+    	destLin =(int) jogadaArr[3] - '0';
+    	destCol =(int) jogadaArr[4] - '0';
 
-		printf("Linha Inicial %d - %d\n", initLin, numJogador);
-     	printf("Coluna Inicial %d - %d\n",initCol,numJogador);
-     	printf("Linha final %d - %d\n", destLin,numJogador);
-     	printf("Coluna final %d - %d\n", destCol,numJogador);
+		// printf("Linha Inicial %d - %d\n", initLin, numJogador);
+     	// printf("Coluna Inicial %d - %d\n",initCol,numJogador);
+     	// printf("Linha final %d - %d\n", destLin,numJogador);
+     	// printf("Coluna final %d - %d\n", destCol,numJogador);
 		
-		int jogadorAtual;
-		if(numJogador == 1){
-			jogadorAtual = 0;
-		}else if(numJogador == 2){
-			jogadorAtual= 1;
-		};
+		
+		populaDadosvalidacao(matrizTabuleiro,&aux,&destino,&medio,&medLin,&medCol,&diff,initLin,destLin,initCol,destCol);
 
-		trocaVez(1,jogadorAtual);
-		
 		if(validaMovimento(initLin,initCol,destCol,destLin,diff,aux,destino,medio,vez,queen,matrizTabuleiro)){
         	*pcontnc=*pcontnc+1;
 			//troca peca
@@ -511,7 +510,7 @@ void instrucoes(char pj1[50],char pj2[50]){
 	printf("|--------------------------------------------------|\n");//,setlocale(LC_ALL,""));
 	printf("| PARA JOGAR TECLE 1                               |\n");//,setlocale(LC_ALL,""));
 	printf("|--------------------------------------------------|\n");//,setlocale(LC_ALL,""));
-    printf("Digite a opção:",setlocale(LC_ALL,""));
+    printf("Digite a opção:");//,setlocale(LC_ALL,""));
 	scanf("%d",&opcao);
 	switch(opcao){
 		case 1:lerNomes(pj1,pj2);
@@ -564,14 +563,38 @@ int main(){
 		printf("Pontuação %s : %d \n",jogador2,pj2);//,setlocale(LC_ALL,""));
 		mostraTabuleiro(matrizTabuleiro);
 
+		printf("ESPERANDO O JOGADOR \n");
 		wait();
-		switch(vez){
-			case 0: trocaVez(jogada(matrizTabuleiro,vez,&pj1,&contnc),&vez);
-			break;
-			case 1: trocaVez(jogada(matrizTabuleiro,vez,&pj2,&contnc),&vez);;
+		//printf("\n 1 vez: %d - %d ",vez,numJogador);
+		if(strcmp("00000",readDriver())!=0 || strcmp("10000",readDriver())!=0 || strcmp("20000",readDriver())!=0){
+			if(getPlayer(readDriver()) != numJogador){
+				if(numJogador == 1){
+					jogada(matrizTabuleiro,vez,&pj2,&contnc,&vez);
+					printf("SIMULADA A JOGADA DO P2 \n");
+
+					trocaVez(1,&vez);
+					mostraTabuleiro(matrizTabuleiro);
+
+				}else if(numJogador ==2){
+					
+					jogada(matrizTabuleiro,vez,&pj1,&contnc,&vez);
+					printf("SIMULADA A JOGADA DO P1 \n");
+					trocaVez(1,&vez);
+					mostraTabuleiro(matrizTabuleiro);
+
+				}
+			}
 		}
 		
-		system("cls");
+		// printf("\n 1 vez: %d - %d ",vez,numJogador);
+		switch(vez){
+			case 0: trocaVez(jogada(matrizTabuleiro,vez,&pj1,&contnc,&vez),&vez);
+			break;
+			case 1: trocaVez(jogada(matrizTabuleiro,vez,&pj2,&contnc,&vez),&vez);
+		}
+		
+		// system("cls");
+		system("clear");
 		joga=fimDeJogo(matrizTabuleiro,contnc,&ganhador);
 		if(joga==1){
 			if(ganhador==0){
