@@ -289,9 +289,9 @@ int validaEntrada(int initLin,int initCol,int destCol,int destLin){
 	}
 } 
 int lePosicoes(int *pinitLin,int *pinitCol,int *pdestLin,int *pdestCol){
-	printf("\nDigite a posição inicial da peça({número linha}{número coluna}):");//,setlocale(LC_ALL,""));
+	printf("\nDigite a posição inicial da peça({número linha}{número coluna}):");
 	scanf("%d",pinitLin);
-    printf("\nDigite a posição final da peça({número linha}{número coluna}):");//,setlocale(LC_ALL,""));
+    printf("\nDigite a posição final da peça({número linha}{número coluna}):");
     scanf("%d",pdestLin);
     *pinitCol=*pinitLin%10;
     *pinitLin=*pinitLin/10;
@@ -494,23 +494,23 @@ void lerNomes(char pj1[50],char pj2[50]){
 void instrucoes(char pj1[50],char pj2[50]){
 	int opcao;
 	printf("|--------------------------------------------------|\n");
-	printf("|                INSTRUÇÕES                        |\n");//,setlocale(LC_ALL,""));
-	printf("| PEÇAS:                                           |\n");//,setlocale(LC_ALL,""));
-	printf("| AS PEDRAS VERMELHAS SÃO REPRESENTADAS POR UM X   |\n");//,setlocale(LC_ALL,""));
-	printf("| AS DAMAS VERMELHAS SÃO REPRESENTADAS POR UM r    |\n");//,setlocale(LC_ALL,""));
-    printf("| AS PEDRAS BRANCAS SÃO REPRESENTADAS POR UM o     |\n");//,setlocale(LC_ALL,""));
-	printf("| AS DAMAS BRANCAS SÃO REPRESENTADAS POR UM q      |\n");//,setlocale(LC_ALL,""));
-	printf("| COMO JOGAR:                                      |\n");//,setlocale(LC_ALL,""));
-	printf("| 1.O JOGADOR 1(PEÇAS VERMELHAS) COMEÇARÁ A PARTIDA|\n");//,setlocale(LC_ALL,""));
-	printf("| 2.PARA MOVIMENTAR AS PEÇAS DIGITE O NÚMERO DA LI-|\n");//,setlocale(LC_ALL,""));
-	printf("| NHA INICIAL SEGUIDO DO NÚMERO DA COLUNA INICIAL. |\n");//,setlocale(LC_ALL,""));
-    printf("| EXEMPLO: 34 (LINHA 3 COLUNA 4). LOGO APÓS DIGITE |\n");//,setlocale(LC_ALL,""));
-	printf("| O NÚMERO DA LINHA DESTINO SEGUIDO DO NÚMERO DA   |\n");//,setlocale(LC_ALL,""));
-	printf("| COLUNA DESTINO.EXEMPLO 45(LINHA 4 COLUNA 5).     |\n");//,setlocale(LC_ALL,""));
-	printf("|--------------------------------------------------|\n");//,setlocale(LC_ALL,""));
-	printf("| PARA JOGAR TECLE 1                               |\n");//,setlocale(LC_ALL,""));
-	printf("|--------------------------------------------------|\n");//,setlocale(LC_ALL,""));
-    printf("Digite a opção:");//,setlocale(LC_ALL,""));
+	printf("|                INSTRUÇÕES                        |\n");
+	printf("| PEÇAS:                                           |\n");
+	printf("| AS PEDRAS VERMELHAS SÃO REPRESENTADAS POR UM X   |\n");
+	printf("| AS DAMAS VERMELHAS SÃO REPRESENTADAS POR UM r    |\n");
+    printf("| AS PEDRAS BRANCAS SÃO REPRESENTADAS POR UM o     |\n");
+	printf("| AS DAMAS BRANCAS SÃO REPRESENTADAS POR UM q      |\n");
+	printf("| COMO JOGAR:                                      |\n");
+	printf("| 1.O JOGADOR 1(PEÇAS VERMELHAS) COMEÇARÁ A PARTIDA|\n");
+	printf("| 2.PARA MOVIMENTAR AS PEÇAS DIGITE O NÚMERO DA LI-|\n");
+	printf("| NHA INICIAL SEGUIDO DO NÚMERO DA COLUNA INICIAL. |\n");
+    printf("| EXEMPLO: 34 (LINHA 3 COLUNA 4). LOGO APÓS DIGITE |\n");
+	printf("| O NÚMERO DA LINHA DESTINO SEGUIDO DO NÚMERO DA   |\n");
+	printf("| COLUNA DESTINO.EXEMPLO 45(LINHA 4 COLUNA 5).     |\n");
+	printf("|--------------------------------------------------|\n");
+	printf("| PARA JOGAR TECLE 1                               |\n");
+	printf("|--------------------------------------------------|\n");
+    printf("Digite a opção:");
 	scanf("%d",&opcao);
 	switch(opcao){
 		case 1:lerNomes(pj1,pj2);
@@ -524,16 +524,16 @@ void criaMenu(char pj1[50],char pj2[50]){
 	printf("|--------------------------------------------------|\n");
 	printf("|                Bem Vindo a Damas 2.0             |\n");
 	printf("|                1-JOGAR                           |\n");
-	printf("|                2-INTRUÇÕES                       |\n");//,setlocale(LC_ALL,""));
+	printf("|                2-INTRUÇÕES                       |\n");
 	printf("|--------------------------------------------------|\n");
-	printf("Digite a opção:");//,setlocale(LC_ALL,""));
+	printf("Digite a opção:");
 	scanf("%d",&opcao);
 	switch(opcao){
 		case 1:lerNomes(pj1,pj2);
 		break;
 		case 2:instrucoes(pj1,pj2);
 		break;
-		default:printf("Opção inexistente: \n");//,setlocale(LC_ALL,""));
+		default:printf("Opção inexistente: \n");
 		criaMenu(pj1,pj2);
 	}
 }
@@ -554,13 +554,13 @@ int main(){
 	criaMenu(jogador1,jogador2);
 	while(joga==0){
 		switch(vez){
-			case 0: printf("Sua vez %s (PEÇAS x)\n",jogador1);//,setlocale(LC_ALL,""));
+			case 0: printf("Sua vez %s (PEÇAS x)\n",jogador1);
 			break;
-			case 1: printf("Sua vez %s (PEÇAS o)\n",jogador2);//,setlocale(LC_ALL,""));
+			case 1: printf("Sua vez %s (PEÇAS o)\n",jogador2);
 		}
 		
-		printf("Pontuação %s : %d \n",jogador1,pj1);//,setlocale(LC_ALL,""));
-		printf("Pontuação %s : %d \n",jogador2,pj2);//,setlocale(LC_ALL,""));
+		printf("Pontuação %s : %d \n",jogador1,pj1);
+		printf("Pontuação %s : %d \n",jogador2,pj2);
 		mostraTabuleiro(matrizTabuleiro);
 
 		printf("ESPERANDO O JOGADOR \n");
@@ -601,9 +601,9 @@ int main(){
 				printf("Que pena!O jogo terminou empatado!!");
 			}else if(ganhador==1){
 				if(pj1>pj2){
-					printf("O %s ganhou!",jogador1);//,setlocale(LC_ALL,""));
+					printf("O %s ganhou!",jogador1);
 				}else if(pj2>pj1){
-					printf("O %s ganhou!",jogador2);//,setlocale(LC_ALL,""));
+					printf("O %s ganhou!",jogador2);
 				}
 			}
 		}
