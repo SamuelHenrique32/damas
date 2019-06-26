@@ -6,6 +6,8 @@
 #include <time.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/ioctl.h>
+#include "./driver/driver.h"
 
 #define DEVICE_NAME "/dev/damas"
 #define BUF_MSG 6
@@ -16,13 +18,18 @@ char * buffer;
 
 int writeDriver(char word[BUF_MSG])
 {
-  int file;
-  file = open(DEVICE_NAME, O_WRONLY);
+  int file, ret;
+  file = open(DEVICE_NAME, O_WRONLY);  
 
   if (file > 0) {
-    write(file, word, BUF_MSG);
-    close(file);
+    ret = ioctl(file, WRITE_VALUE, word);
+	if (ret < 0)
+  	{
+		printf("Erro ao efetuar operacao de escrita");
+		exit(0);
+  	}
   }
+  close(file);
 
   return 1;
 }
