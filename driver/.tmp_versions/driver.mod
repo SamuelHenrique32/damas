@@ -1,2 +1,3 @@
-/home/unid/cetec/alunos/mcwplima/Downloads/damas-master/driver/driver.ko
-/home/unid/cetec/alunos/mcwplima/Downloads/damas-master/driver/driver.o
+/home/samuel/Desktop/damas/driver/driver.ko
+/home/samuel/Desktop/damas/driver/driver.o
+

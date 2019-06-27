@@ -50,7 +50,7 @@ char* readDriver()
 
 int initJogo(){
     writeDriver("00000");
-    printf("Jogo Iniciado\n");
+    //printf("Jogo Iniciado\n");
     writeDriver("10000");
     setJogador(1,"JOGADOR1");
 }
@@ -63,7 +63,7 @@ int getPlayer(){
     strcpy(jogadaArr, readDriver());
     jogadorChar = jogadaArr[0];
     jogadorInt =  jogadorChar - '0';
-	printf("\njogador: %d\n",jogadorInt);
+	//printf("\njogador: %d\n",jogadorInt);
     return jogadorInt ;
 }
 
@@ -75,7 +75,7 @@ int setJogador(int num , char * nome){
 
 //Espera outro jogador
 int wait (){
-	printf("WAIT BUFFER %s \n",readDriver() );
+	//printf("WAIT BUFFER %s \n",readDriver() );
 
 	//printf("entrou no while com getPlayer: %d\n",getPlayer(readDriver()));
 	//printf("entrou no while com jogador: %d\n",numJogador);
@@ -84,7 +84,7 @@ int wait (){
 		
         sleep(1);
        
-        printf("WAIT BUFFER %s \n",readDriver() );
+        //printf("WAIT BUFFER %s \n",readDriver() );
     }
 
 }
@@ -332,11 +332,11 @@ void populaDadosvalidacao(int matrizTabuleiro[9][9], int *paux,int *pdestino,int
 }
 int jogada(int matrizTabuleiro[9][9],int vez,int *ppontos,int *pcontnc, int *vezpoint){
 	int initLin,initCol,destLin,destCol,aux,queen,destino,medLin,medCol,medio,diff;
-	 printf("VEZ  %d \n",vez);
-	 printf("JOGADOR - 1 %d \n",numJogador-1);
+	 //printf("VEZ  %d \n",vez);
+	 //printf("JOGADOR - 1 %d \n",numJogador-1);
 	
 	if(vez == numJogador-1 || strcmp("00000",readDriver())==0 || strcmp("10000",readDriver())==0 || strcmp("20000",readDriver())==0){
-	printf("Minha jogada %d \n",numJogador);
+	//printf("Minha jogada %d \n",numJogador);
 	if(lePosicoes(&initLin,&initCol,&destLin,&destCol)){
     	if(vez==0 && matrizTabuleiro[initLin][initCol]==15 || vez==1 && matrizTabuleiro[initLin][initCol]==16){
     		queen=1; 
@@ -577,7 +577,7 @@ int main(){
 			if(getPlayer(readDriver()) != numJogador){
 				if(numJogador == 1){
 					jogada(matrizTabuleiro,vez,&pj2,&contnc,&vez);
-					printf("SIMULADA A JOGADA DO P2 \n");
+					//printf("SIMULADA A JOGADA DO P2 \n");
 
 					trocaVez(1,&vez);
 					mostraTabuleiro(matrizTabuleiro);
@@ -585,7 +585,7 @@ int main(){
 				}else if(numJogador ==2){
 					
 					jogada(matrizTabuleiro,vez,&pj1,&contnc,&vez);
-					printf("SIMULADA A JOGADA DO P1 \n");
+					//printf("SIMULADA A JOGADA DO P1 \n");
 					trocaVez(1,&vez);
 					mostraTabuleiro(matrizTabuleiro);
 
