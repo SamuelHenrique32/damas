@@ -18,34 +18,37 @@ char * buffer;
 
 int writeDriver(char word[BUF_MSG])
 {
-  int file, ret;
-  file = open(DEVICE_NAME, O_WRONLY);  
+	int file, ret;
+	file = open(DEVICE_NAME, O_WRONLY);  
 
-  if (file > 0) {
-    ret = ioctl(file, WRITE_VALUE, word);
-	if (ret < 0)
-  	{
-		printf("Erro ao efetuar operacao de escrita");
-		exit(0);
-  	}
-  }
-  close(file);
-
-  return 1;
+	if (file > 0) {
+		ret = ioctl(file, WRITE_VALUE, word);
+		if (ret < 0)
+		{
+			printf("Erro ao efetuar operacao de escrita");
+			exit(0);
+		}
+	}
+	close(file);
+	return 1;
 }
 
 char* readDriver()
 {
-  int file;
-  char *word = (char*) malloc(BUF_MSG);
-  file = open(DEVICE_NAME, O_RDONLY);
+	int file, ret;
+	char *word = (char*) malloc(BUF_MSG);
+	file = open(DEVICE_NAME, O_RDONLY);
 
-  if (file > 0) {
-    read(file, word, BUF_MSG);
-    close(file);
-  }
-
-  return word;
+	if (file > 0) {
+		ret = ioctl(file, READ_VALUE, word);
+		if (ret < 0)
+			{
+				printf("Erro ao efetuar operacao de leitura");
+				exit(0);
+			}		
+	}
+	close(file);
+	return word;
 }
 
 int initJogo(){

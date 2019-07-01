@@ -21,12 +21,12 @@ int main(int argc, char **argv)
     }
 
     // Escrita
-    char str[10];
-    sprintf(str, "%d", 46789);
-    ret = ioctl(fp, WRITE_VALUE, str);
+    //char str[10];
+    //sprintf(str, "%d", 46789);
+    //ret = ioctl(fp, WRITE_VALUE, str);
     
     // Leitura
-    //ret = ioctl(fp, READ_VALUE, message);
+    ret = ioctl(fp, READ_VALUE, message);
 
     if (ret < 0)
     {
@@ -34,7 +34,7 @@ int main(int argc, char **argv)
         exit(0);
     }
 
-    //printf("Mensagem recuperada: %s\n", message);
+    printf("Mensagem recuperada: %s\n", message);
 
     close(fp);
 }

@@ -118,7 +118,6 @@ static ssize_t device_write(struct file *file, const char __user *buffer, size_t
 
 long device_ioctl(struct file *file, unsigned int ioctl_num, unsigned long ioctl_param)
 {
-	int i;
 	printk("IOCTL recebeu CASE %d\n", ioctl_num);
 	switch (ioctl_num)
 	{
@@ -129,8 +128,7 @@ long device_ioctl(struct file *file, unsigned int ioctl_num, unsigned long ioctl
 		
 		case READ_VALUE:
 			printk("IOCTL recebeu param para leitura\n");
-			i = device_read(file, (char *)ioctl_param, BUFFER, 0);
-			put_user('\0', (char *)ioctl_param + i);
+			device_read(file, (char *)ioctl_param, BUFFER, 0);
 		break;
 
 		default:
