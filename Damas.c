@@ -90,7 +90,7 @@ int wait (){
         //printf("WAIT BUFFER %s \n",readDriver() );
     }
 
-	printf("Jogada %s \n",readDriver());
+	//printf("Jogada %s \n",readDriver());
 
 }
 
@@ -592,20 +592,15 @@ int main(){
 		if(strcmp("00000",readDriver())!=0 || strcmp("10000",readDriver())!=0 || strcmp("20000",readDriver())!=0){
 			if(getPlayer(readDriver()) != numJogador){
 				if(numJogador == 1){
-					jogada(matrizTabuleiro,vez,&pj2,&contnc,&vez);
-					
 					//printf("SIMULADA A JOGADA DO P2 \n");
-
-					trocaVez(1,&vez);
+					trocaVez(jogada(matrizTabuleiro,vez,&pj2,&contnc,&vez),&vez);
 					printf("Pontuação %s : %d \n",jogador1,pj1);
 					printf("Pontuação %s : %d \n",jogador2,pj2);
 					mostraTabuleiro(matrizTabuleiro);
 
 				}else if(numJogador ==2){
-					
-					jogada(matrizTabuleiro,vez,&pj1,&contnc,&vez);
 					//printf("SIMULADA A JOGADA DO P1 \n");
-					trocaVez(1,&vez);
+					trocaVez(jogada(matrizTabuleiro,vez,&pj1,&contnc,&vez),&vez);
 					printf("Pontuação %s : %d \n",jogador1,pj1);
 					printf("Pontuação %s : %d \n",jogador2,pj2);
 					mostraTabuleiro(matrizTabuleiro);
