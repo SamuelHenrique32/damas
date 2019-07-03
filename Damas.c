@@ -574,6 +574,16 @@ int main(){
 		                         {6,11,99,11,99,11,99,11,99},
 		                         {7,99,11,99,11,99,11,99,11},
 		                         {8,11,99,11,99,11,99,11,99}};
+
+	// int matrizTabuleiro[9][9]={{99,1,2,3,4,5,6,7,8},
+	// 	                         {1,99,99,99,99,99,99,99,99},
+	// 	                         {2,99,99,99,99,99,99,99,99},
+	// 	                         {3,99,15,99,10,99,99,99,99},
+	// 	                         {4,99,99,99,99,99,10,99,99},
+	// 	                         {5,99,99,99,11,99,99,99,99},
+	// 	                         {6,99,10,99,99,99,99,99,99},
+	// 	                         {7,99,99,99,99,99,99,99,99},
+	// 	                         {8,99,99,99,99,99,99,99,99}};
 	criaMenu(jogador1,jogador2);
 	while(joga==0){
 		switch(vez){
@@ -593,56 +603,41 @@ int main(){
 			if(getPlayer(readDriver()) != numJogador){
 				if(numJogador == 1){
 					//printf("SIMULADA A JOGADA DO P2 \n");
-					if(joga==1){
-			if(ganhador==0){
-				printf("Que pena!O jogo terminou empatado!!");
-			}else if(ganhador==1){
-				if(pj1>pj2){
-					printf("O %s ganhou!",jogador1);
-				}else if(pj2>pj1){
-					printf("O %s ganhou!",jogador2);
-				}
-			}
-		}
 					trocaVez(jogada(matrizTabuleiro,vez,&pj2,&contnc,&vez),&vez);
 					printf("Pontuação J1 : %d \n",jogador1,pj1);
 					printf("Pontuação J2 : %d \n",jogador2,pj2);
 					mostraTabuleiro(matrizTabuleiro);
-					system("clear");
-		joga=fimDeJogo(matrizTabuleiro,contnc,&ganhador);
+					joga=fimDeJogo(matrizTabuleiro,contnc,&ganhador);
+					
 		
 
 				}else if(numJogador ==2){
 					//printf("SIMULADA A JOGADA DO P1 \n");
-					if(joga==1){
-			if(ganhador==0){
-				printf("Que pena!O jogo terminou empatado!!");
-			}else if(ganhador==1){
-				if(pj1>pj2){
-					printf("O %s ganhou!",jogador1);
-				}else if(pj2>pj1){
-					printf("O %s ganhou!",jogador2);
-				}
-			}
-		}
 					trocaVez(jogada(matrizTabuleiro,vez,&pj1,&contnc,&vez),&vez);
 					printf("Pontuação J1 : %d \n",jogador1,pj1);
 					printf("Pontuação J2 : %d \n",jogador2,pj2);
 					mostraTabuleiro(matrizTabuleiro);
-					system("clear");
-			joga=fimDeJogo(matrizTabuleiro,contnc,&ganhador);
-		
+					joga=fimDeJogo(matrizTabuleiro,contnc,&ganhador);
+					
 
 				}
 			}
 		}
 		
-		// printf("\n 1 vez: %d - %d ",vez,numJogador);
-		switch(vez){
-			case 0: trocaVez(jogada(matrizTabuleiro,vez,&pj1,&contnc,&vez),&vez);
-			break;
-			case 1: trocaVez(jogada(matrizTabuleiro,vez,&pj2,&contnc,&vez),&vez);
-		}
+		
+			// printf("\n 1 vez: %d - %d ",vez,numJogador);
+			
+			if(!joga){
+				switch(vez){
+				case 0: trocaVez(jogada(matrizTabuleiro,vez,&pj1,&contnc,&vez),&vez);
+				break;
+				case 1: trocaVez(jogada(matrizTabuleiro,vez,&pj2,&contnc,&vez),&vez);
+			}
+			}
+			
+		
+
+		
 		
 		// system("cls");
 		system("clear");
@@ -652,9 +647,9 @@ int main(){
 				printf("Que pena!O jogo terminou empatado!!");
 			}else if(ganhador==1){
 				if(pj1>pj2){
-					printf("O %s ganhou!",jogador1);
+					printf("O %s ganhou! \n",jogador1);
 				}else if(pj2>pj1){
-					printf("O %s ganhou!",jogador2);
+					printf("O %s ganhou! \n",jogador2);
 				}
 			}
 		}
