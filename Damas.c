@@ -90,6 +90,8 @@ int wait (){
         //printf("WAIT BUFFER %s \n",readDriver() );
     }
 
+	printf("Jogada %s \n",readDriver());
+
 }
 
 //Pega a movimentação realizada
@@ -228,6 +230,7 @@ int validaMovimento(int initLin,int initCol,int destCol,int destLin,int diff, in
 						}
 						return 1;
 					}else{
+						printf("6 -1 - \n");
 						showErrors(6);
 						return 0;
 					}
@@ -248,10 +251,12 @@ int validaMovimento(int initLin,int initCol,int destCol,int destLin,int diff, in
 						}
 						return 1;
 					}else{
+						printf("6 -2 - \n");
 						showErrors(6);
 						return 0;
 					}		
 				}else{
+					printf("6 -3 - \n");
 					showErrors(6);
 					return 0;
 				}
@@ -265,14 +270,17 @@ int validaMovimento(int initLin,int initCol,int destCol,int destLin,int diff, in
 					if(validaDiagonalRainha(initLin,initCol,destCol,destLin,matrizTabuleiro,aux)){
 						return 1;
 					}else{
+						printf("6 -4 - \n");
 						showErrors(6);
 						return 0;
 					}
 				}else{
+					printf("6 -5 - \n");
 					showErrors(6);
 					return 0;
 				}
 		}else{
+			printf("6 -6 - \n");
 			showErrors(6);
 			return 0;
 		}
@@ -385,12 +393,17 @@ int jogada(int matrizTabuleiro[9][9],int vez,int *ppontos,int *pcontnc, int *vez
     	destLin =(int) jogadaArr[3] - '0';
     	destCol =(int) jogadaArr[4] - '0';
 
-		// printf("Linha Inicial %d - %d\n", initLin, numJogador);
-     	// printf("Coluna Inicial %d - %d\n",initCol,numJogador);
-     	// printf("Linha final %d - %d\n", destLin,numJogador);
-     	// printf("Coluna final %d - %d\n", destCol,numJogador);
+		 //printf("Linha Inicial %d - %d\n", initLin, numJogador);
+     	 //printf("Coluna Inicial %d - %d\n",initCol,numJogador);
+     	 //printf("Linha final %d - %d\n", destLin,numJogador);
+     	 //printf("Coluna final %d - %d\n", destCol,numJogador);
 		
-		
+		if(vez==0 && matrizTabuleiro[initLin][initCol]==15 || vez==1 && matrizTabuleiro[initLin][initCol]==16){
+    		queen=1; 
+    	}else{
+    		queen=0;
+		}	
+
 		populaDadosvalidacao(matrizTabuleiro,&aux,&destino,&medio,&medLin,&medCol,&diff,initLin,destLin,initCol,destCol);
 
 		if(validaMovimento(initLin,initCol,destCol,destLin,diff,aux,destino,medio,vez,queen,matrizTabuleiro)){
@@ -580,9 +593,12 @@ int main(){
 			if(getPlayer(readDriver()) != numJogador){
 				if(numJogador == 1){
 					jogada(matrizTabuleiro,vez,&pj2,&contnc,&vez);
+					
 					//printf("SIMULADA A JOGADA DO P2 \n");
 
 					trocaVez(1,&vez);
+					printf("Pontuação %s : %d \n",jogador1,pj1);
+					printf("Pontuação %s : %d \n",jogador2,pj2);
 					mostraTabuleiro(matrizTabuleiro);
 
 				}else if(numJogador ==2){
@@ -590,6 +606,8 @@ int main(){
 					jogada(matrizTabuleiro,vez,&pj1,&contnc,&vez);
 					//printf("SIMULADA A JOGADA DO P1 \n");
 					trocaVez(1,&vez);
+					printf("Pontuação %s : %d \n",jogador1,pj1);
+					printf("Pontuação %s : %d \n",jogador2,pj2);
 					mostraTabuleiro(matrizTabuleiro);
 
 				}
