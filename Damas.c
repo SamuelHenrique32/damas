@@ -592,8 +592,8 @@ int main(){
 			case 1: printf("Sua vez %s (PEÇAS o)\n",jogador2);
 		}
 		
-		printf("Pontuação J1 : %d \n",jogador1,pj1);
-		printf("Pontuação J2 : %d \n",jogador2,pj2);
+		printf("Pontuação J1 : %d \n",pj1);
+		printf("Pontuação J2 : %d \n",pj2);
 		mostraTabuleiro(matrizTabuleiro);
 
 		printf("ESPERANDO O JOGADOR \n");
@@ -604,8 +604,8 @@ int main(){
 				if(numJogador == 1){
 					//printf("SIMULADA A JOGADA DO P2 \n");
 					trocaVez(jogada(matrizTabuleiro,vez,&pj2,&contnc,&vez),&vez);
-					printf("Pontuação J1 : %d \n",jogador1,pj1);
-					printf("Pontuação J2 : %d \n",jogador2,pj2);
+					printf("Pontuação J1 : %d \n",pj1);
+					printf("Pontuação J2 : %d \n",pj2);
 					mostraTabuleiro(matrizTabuleiro);
 					joga=fimDeJogo(matrizTabuleiro,contnc,&ganhador);
 					
@@ -614,8 +614,8 @@ int main(){
 				}else if(numJogador ==2){
 					//printf("SIMULADA A JOGADA DO P1 \n");
 					trocaVez(jogada(matrizTabuleiro,vez,&pj1,&contnc,&vez),&vez);
-					printf("Pontuação J1 : %d \n",jogador1,pj1);
-					printf("Pontuação J2 : %d \n",jogador2,pj2);
+					printf("Pontuação J1 : %d \n",pj1);
+					printf("Pontuação J2 : %d \n",pj2);
 					mostraTabuleiro(matrizTabuleiro);
 					joga=fimDeJogo(matrizTabuleiro,contnc,&ganhador);
 					
