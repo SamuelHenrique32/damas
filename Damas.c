@@ -646,10 +646,10 @@ int main(){
 			if(ganhador==0){
 				printf("Que pena!O jogo terminou empatado!!");
 			}else if(ganhador==1){
-				if(pj1<pj2){
-					printf("O %s ganhou! \n",jogador1);
-				}else if(pj2<pj1){
-					printf("O %s ganhou! \n",jogador2);
+				if(pj1>pj2){
+					printf("O J1 ganhou! \n");
+				}else if(pj2>pj1){
+					printf("O J2 ganhou! \n");
 				}
 			}
 		}
